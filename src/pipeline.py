@@ -2,6 +2,7 @@ import open3d as o3d
 import numpy as np
 import matplotlib.cm as cm
 from pathlib import Path
+from sklearn.cluster import KMeans
 
 if __name__ == "__main__":
     ROOT = Path(__file__).parent.parent
@@ -42,3 +43,10 @@ if __name__ == "__main__":
     clean_pcd.colors = o3d.utility.Vector3dVector(colors)
     o3d.visualization.draw_geometries([clean_pcd], window_name="Cleaned Point Cloud Colored by FPFH Scalar Field")
 
+    k = 5
+    kmeans = KMeans(n_clusters=k, random_state=42)
+    labels = kmeans.fit_predict(fpfh.data.T)
+    cluster_colors = cm.tab10(labels / k)[:, :3]
+    clean_pcd.colors = o3d.utility.Vector3dVector(cluster_colors)
+    print(np.bincount(labels))
+    o3d.visualization.draw_geometries([clean_pcd], window_name="Cleaned Point Cloud Colored by KMeans FPFH Clusters")
