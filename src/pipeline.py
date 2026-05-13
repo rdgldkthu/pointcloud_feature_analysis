@@ -31,3 +31,5 @@ if __name__ == "__main__":
         o3d.geometry.KDTreeSearchParamHybrid(radius, max_nn)
     )
     print(fpfh.data.shape)
+
+    o3d.visualization.draw_geometries([clean_pcd], point_show_normal=True, window_name="Cleaned Point Cloud with Normals")
