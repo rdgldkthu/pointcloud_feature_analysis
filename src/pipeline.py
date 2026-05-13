@@ -23,3 +23,11 @@ if __name__ == "__main__":
     clean_pcd.estimate_normals(o3d.geometry.KDTreeSearchParamHybrid(radius, max_nn))
     clean_pcd.orient_normals_consistent_tangent_plane(10)
     print(len(clean_pcd.normals))
+
+    radius = 5 * voxel_size
+    max_nn = 100
+    fpfh = o3d.pipelines.registration.compute_fpfh_feature(
+        clean_pcd,
+        o3d.geometry.KDTreeSearchParamHybrid(radius, max_nn)
+    )
+    print(fpfh.data.shape)
