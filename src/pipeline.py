@@ -1,5 +1,6 @@
 import open3d as o3d
 import numpy as np
+import matplotlib.cm as cm
 from pathlib import Path
 
 if __name__ == "__main__":
@@ -33,3 +34,11 @@ if __name__ == "__main__":
     print(fpfh.data.shape)
 
     o3d.visualization.draw_geometries([clean_pcd], point_show_normal=True, window_name="Cleaned Point Cloud with Normals")
+
+    scalar_field = fpfh.data[22, :]
+    normalized_scalar_field = (scalar_field - np.min(scalar_field)) / (np.max(scalar_field) - np.min(scalar_field))
+    colormap = cm.plasma(normalized_scalar_field)
+    colors = colormap[:, :3]
+    clean_pcd.colors = o3d.utility.Vector3dVector(colors)
+    o3d.visualization.draw_geometries([clean_pcd], window_name="Cleaned Point Cloud Colored by FPFH Scalar Field")
+
